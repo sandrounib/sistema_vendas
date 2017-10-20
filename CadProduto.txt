@@ -1,0 +1,4 @@
+codProd
+nomeProd
+desc
+preco

@@ -18,3 +18,13 @@ c:\Users\Sandro Reis\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vend
 c:\Users\Sandro Reis\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vendas.AssemblyInfo.cs
 c:\Users\Sandro Reis\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vendas.dll
 c:\Users\Sandro Reis\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vendas.pdb
+C:\Users\FIC\Desktop\sistema_vendas\bin\Debug\netcoreapp2.0\sistema_vendas.deps.json
+C:\Users\FIC\Desktop\sistema_vendas\bin\Debug\netcoreapp2.0\sistema_vendas.runtimeconfig.json
+C:\Users\FIC\Desktop\sistema_vendas\bin\Debug\netcoreapp2.0\sistema_vendas.runtimeconfig.dev.json
+C:\Users\FIC\Desktop\sistema_vendas\bin\Debug\netcoreapp2.0\sistema_vendas.dll
+C:\Users\FIC\Desktop\sistema_vendas\bin\Debug\netcoreapp2.0\sistema_vendas.pdb
+C:\Users\FIC\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vendas.csproj.CoreCompileInputs.cache
+C:\Users\FIC\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vendas.AssemblyInfoInputs.cache
+C:\Users\FIC\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vendas.AssemblyInfo.cs
+C:\Users\FIC\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vendas.dll
+C:\Users\FIC\Desktop\sistema_vendas\obj\Debug\netcoreapp2.0\sistema_vendas.pdb

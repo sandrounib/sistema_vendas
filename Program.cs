@@ -1,43 +1,14 @@
 ﻿using System;
+using System.IO;
 
 namespace sistema_vendas
 {
     class Program
     {
         static void Main(string[] args)
-        {
-            
-            System.Console.WriteLine("MENU DE OPÇÕES");
-            System.Console.WriteLine("==============");
-            string opcao ="";
-            do{
-                System.Console.WriteLine("Digite a opção: ");
-                System.Console.WriteLine("1 - Cadastrar Cliente");
-                System.Console.WriteLine("2 - Cadastrar Produto");
-                System.Console.WriteLine("3 - Cadastrar Venda");
-                System.Console.WriteLine("4 - Extrato Clente");
-                System.Console.WriteLine("9 - SAIR");
-
-                //recebe opção do cliente
-                opcao = Console.ReadLine();
-                switch(opcao){
-                        case "1":
-                            CadastrarCliente();                            
-                            //string cnpj ="";                                                   
-                            //bool cnpjValido = ValidaCnpj(cnpj);                                                                                                        
-                            break;
-                        case "2":
-                        CadastrarProduto();
-                            break;
-                        case "3":
-                        RealizarVenda();
-                            break;
-                        case "4":
-                        ExtratoCliente();
-                            break;                                                
-                }
-                
-            }while(opcao != "9");
+        {    
+            Menu();         
+           
         }
         //Metodo Cadastrar Cliente
         static void CadastrarCliente(){  
@@ -75,7 +46,23 @@ namespace sistema_vendas
             for(int i = 0 ; i < Dados.Length ; i ++)
             {
                 Console.WriteLine(variable[i] + ": " + Dados[i]);
-            }
+            } 
+
+             bool arquivoExiste = File.Exists("CadCliente.txt");
+
+            StreamWriter sw = new StreamWriter (@"C:\Users\FIC\Desktop\sistema_vendas\CadCliente.txt");                       
+
+                for (int i = 0; i < Dados.Length; i ++)
+                {
+
+                    sw.Write(Dados[i] + ";");
+
+                } 
+
+                sw.WriteLine();                          
+                sw.Close();                               
+
+
             Console.WriteLine("");
             DateTime data_hora;
             data_hora = DateTime.Now;
@@ -86,13 +73,144 @@ namespace sistema_vendas
 
         }
         //Metodo Cadastrar Produto
-        static void CadastrarProduto(){
+        static void CadastrarProduto()
+        {   
+            string[] perguntas =  File.ReadAllLines(@"C:\Users\FIC\Desktop\sistema_vendas\CadProduto.txt");            
+
+            string[] respostas = new string [perguntas.Length];       
+
+            for (int i = 0; i < perguntas.Length; i ++)
+
+            {
+
+                Console.WriteLine("Digite o(a): " + perguntas[i]);
+
+                respostas[i] = Console.ReadLine();            
+
+            }       
+
+            bool arquivoExiste = File.Exists("DadosProd.csv");
+
+            StreamWriter sw = new StreamWriter (@"C:\Users\FIC\Desktop\sistema_vendas\DadosProd.csv");                       
+
+                for (int i = 0; i < perguntas.Length; i ++)
+                {
+
+                    sw.Write(perguntas[i] + ":");
+
+                } 
+
+                sw.WriteLine();           
+
+                for (int i = 0; i < respostas.Length; i ++)
+
+                {
+
+                    if (arquivoExiste)
+
+                    {
+                        sw.Write(respostas[i] + " " );
+                    }                   
+
+                } 
+                sw.WriteLine();             
+
+                sw.Close();   
+                                
+        }
+
+        static void Menu(){
+            System.Console.WriteLine("MENU DE OPÇÕES");
+            System.Console.WriteLine("==============");
+            string opcao ="";
+            do{
+                System.Console.WriteLine("Digite a opção: ");
+                System.Console.WriteLine("1 - Cadastrar Cliente");
+                System.Console.WriteLine("2 - Cadastrar Produto");
+                System.Console.WriteLine("3 - Realizar Venda");
+                System.Console.WriteLine("4 - Extrato Clente");
+                System.Console.WriteLine("9 - SAIR");
+
+                //recebe opção do cliente
+                opcao = Console.ReadLine();
+                switch(opcao){
+                        case "1":
+                            CadastrarCliente();                            
+                            //string cnpj ="";                                                   
+                            //bool cnpjValido = ValidaCnpj(cnpj);                                                                                                        
+                            break;
+                        case "2":                    
+                       
+                      CadastrarProduto();
+                            break;
+
+                        case "3":
+                        RealizarVenda();
+                            break;
+
+                        case "4":
+                        ExtratoCliente();
+                            break;                                                
+                }
+                
+            }while(opcao != "9");
 
         }
 
         //Metodo realizar Venda
         static void RealizarVenda(){
+            string cpf ="";
+            string cnpj ="";
+            string value ="";            
+            string[] linhas = File.ReadAllLines(@"C:\Users\FIC\Desktop\sistema_vendas\CadCliente.txt"); 
+            string[] linhasProd = File.ReadAllLines(@"C:\Users\FIC\Desktop\sistema_vendas\CadProduto.txt");            
+            System.Console.WriteLine("Realizar Venda");
+            System.Console.WriteLine("Pesquisa do CPF ou CNPJ");
+            System.Console.WriteLine("Digite uma Opção: ");
+            System.Console.WriteLine("[1] Pesquisar CPF [2] Pesquisar CNPJ");
+            value = Console.ReadLine();
+            if(value == "1"){
+               cpf = Console.ReadLine();
+               bool cpfValido = ValidarCpf(cpf); 
+               bool cpfEncontrado = false; 
+               string dadosCliente = "";          
+               if(cpfValido == true){  
+                   System.Console.WriteLine("Exibir dados do cliente.");                     
+                   foreach (string linha in linhas){
+                   if(linha.Contains(cpf) == true){
+                        cpfEncontrado = true;
+                        dadosCliente = linha;
+                        break;
+                   }  
 
+                   }
+                   if(cpfEncontrado == true){
+                       System.Console.WriteLine(dadosCliente);
+                       
+                   }else{
+                       System.Console.WriteLine("Cliente não existe");
+                       CadastrarCliente();
+
+                   }
+
+                   System.Console.WriteLine("Cadastre o cliente");                  
+                   CadastrarCliente();
+                   Menu();
+
+               }else{
+                   System.Console.WriteLine("CPF INVÁLIDO! Digite um CPF Valido");
+                   ValidarCpf(cpf);
+               }
+            }
+            else if (value == "2"){
+                bool cnpjValido = ValidaCnpj(cnpj);
+                if(cnpjValido == true){
+
+                }else{
+                    System.Console.WriteLine("CNPJ INVÁLIDO! Digite um CPF Valido");
+                }
+            }             
+             
         }
 
         //Método ExtratoCliente
@@ -109,7 +227,8 @@ namespace sistema_vendas
 
             //checar (SE) o (TAMANHO) cpf digitado é # de 11 digitos
             if(cpf.Length != 11){
-                System.Console.WriteLine("CPF INVÁLIDO!");          
+                System.Console.WriteLine("CPF INVÁLIDO!"); 
+                return false;         
 
             }
             else{
@@ -170,14 +289,13 @@ namespace sistema_vendas
                 //Checar o cpf e comparar com digito
                 if(cpf.EndsWith(digito)== true){
                     System.Console.WriteLine("CPF VÁLIDO!");
-                    return cpfValido = true;
+                    return true;
                 }
                 else{
                     System.Console.WriteLine("CPF INVÁLIDO");
-                    return cpfValido = false;
+                    return false;
                 }                
-            } 
-            return cpfValido;         
+            }                      
             
         }
         //Função para validar CNPJ
