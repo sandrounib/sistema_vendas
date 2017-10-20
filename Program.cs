@@ -22,11 +22,9 @@ namespace sistema_vendas
                 opcao = Console.ReadLine();
                 switch(opcao){
                         case "1":
-                        CadastrarCliente();                         
-                        string cpf ="";
-                        string cnpj ="";
-                       bool cpfValido = ValidarCpf(cpf);                       
-                       bool cnpjValido = ValidaCnpj(cnpj);                       
+                            CadastrarCliente();                            
+                            //string cnpj ="";                                                   
+                            //bool cnpjValido = ValidaCnpj(cnpj);                                                                                                        
                             break;
                         case "2":
                         CadastrarProduto();
@@ -42,8 +40,50 @@ namespace sistema_vendas
             }while(opcao != "9");
         }
         //Metodo Cadastrar Cliente
-        static void CadastrarCliente(){         
-    
+        static void CadastrarCliente(){  
+            string nomeCli, emailCli;
+            string opcao ="";
+            System.Console.WriteLine("Cadastro do Cliente ");
+            System.Console.WriteLine("Entre com [1] Pessoa Física  [2] Pessoa Juridica");                        
+            opcao = Console.ReadLine();
+            switch (opcao){
+                case "1":                
+                    System.Console.WriteLine("Opção digitada :" + opcao);
+                    System.Console.WriteLine("Validação do CPF");
+                    string cpf ="";
+                    bool cpfValido = ValidarCpf(cpf);
+                break;  
+                                       
+                case "2":
+                    System.Console.WriteLine("Opção digitada :" + opcao);
+                    System.Console.WriteLine("Validação do CNPJ");
+                    string cnpj ="";
+                    bool cnpjValido = ValidaCnpj(cnpj);
+                break;                                   
+                      
+                
+            }while(opcao != "1" && opcao !="2"); 
+            
+            string[] Dados = new string [2];
+            string [] variable = new string[] {"nomeCompleto","email"};
+
+            for (int i=0 ; i < Dados.Length ; i ++)
+            {
+                Console.WriteLine("Digite o seu " + variable[i]);
+                Dados[i] = Console.ReadLine();
+            }            
+            for(int i = 0 ; i < Dados.Length ; i ++)
+            {
+                Console.WriteLine(variable[i] + ": " + Dados[i]);
+            }
+            Console.WriteLine("");
+            DateTime data_hora;
+            data_hora = DateTime.Now;
+            data_hora.ToLongDateString();
+            Console.WriteLine("Cadastro concluido com sucesso! ");
+            System.Console.WriteLine(data_hora);                      
+
+
         }
         //Metodo Cadastrar Produto
         static void CadastrarProduto(){
