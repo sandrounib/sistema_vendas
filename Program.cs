@@ -24,7 +24,9 @@ namespace sistema_vendas
                         case "1":
                         CadastrarCliente();                         
                         string cpf ="";
-                       bool cpfValido = ValidarCpf(cpf);
+                        string cnpj ="";
+                       bool cpfValido = ValidarCpf(cpf);                       
+                       bool cnpjValido = ValidaCnpj(cnpj);                       
                             break;
                         case "2":
                         CadastrarProduto();
@@ -58,11 +60,12 @@ namespace sistema_vendas
 
         }
         static bool ValidarCpf(string cpf){
-            bool cpfValido = false;
-            System.Console.WriteLine("Digite seu CPF: ");
+            bool cpfValido = false;            
+            System.Console.WriteLine("Digite o CPF do Cliente: ");
             cpf = Console.ReadLine();
             cpf.Trim();//remover espaços em branco
             cpf = cpf.Replace(".","").Replace("-","");//se tiver .(ponto) ou traços substitua por espaço em branco
+
 
             //checar (SE) o (TAMANHO) cpf digitado é # de 11 digitos
             if(cpf.Length != 11){
@@ -136,6 +139,86 @@ namespace sistema_vendas
             } 
             return cpfValido;         
             
+        }
+        //Função para validar CNPJ
+        static bool ValidaCnpj(string cnpj){
+            bool cnpjValido = false;
+            System.Console.WriteLine("Digite o CNPJ do Cliente: ");
+            cnpj = Console.ReadLine();
+            cnpj.Trim();//remover espaços em branco
+            cnpj = cnpj.Replace(".","").Replace("-","");//se tiver .(ponto) ou traços substitua por espaço em branco
+
+            //checar (SE) o (TAMANHO) cpf digitado é # de 11 digitos
+            if(cnpj.Length != 14){
+                System.Console.WriteLine("CNPJ INVÁLIDO!");          
+
+            }
+            else{
+                //criação dos vetores da multiplicação
+                int[] mult1 = new int[12] {5,4,3,2,9,8,7,6,5,4,3,2};
+                int[] mult2 = new int[13] {6,5,4,3,2,9,8,7,6,5,4,3,2};
+
+                //criação das strings tempCpf e digito
+                string tempCnpj, digito;
+                
+                //criação das variáveis soma e resto já com valores zerados
+                int soma = 0, resto = 0;
+
+                //Armazenar em tempCpf apenas 9 digitos da variavel cpf
+                tempCnpj = cnpj.Substring(0,12);// Começa da posição 0 e pega só 9 digitos do CPF
+                
+                //Fazer um laço e guardar em soma, a multiplicação os digitos do CPF digitado pelo peso dado ao vetor mult1
+                for (int i = 0; i < 12; i++){
+                   soma += int.Parse(tempCnpj[i].ToString()) * mult1[i];                                            
+                }
+                //Guardar em resto, o RESTO da divisão de soma / 11
+                resto = soma % 11;
+                
+                // checar SE resto ficou com valor menor que 2 se sim o primeiro digito será 0 (zero)
+                if (resto < 2){
+                    resto = 0;
+                }
+                else{
+                    resto = 11 - resto;  // se não for; O que tiver em resto subtraia por 11
+                }
+
+                //armazenar o primeiro digito que pegamos na variável digito
+                digito = resto.ToString();
+
+                //Pegar o segundo digito
+                tempCnpj = tempCnpj + digito;
+                
+                //Zerar variável soma
+                soma = 0;
+                //Fazer um laço para multiplicar os digitos do CPF digitado pelo peso dado ao vetor mult2, e armazenar em soma
+                for (int i = 0; i < 13; i++){
+                    soma += int.Parse(tempCnpj[i].ToString()) * mult2[i];
+                }
+                //Guardar em resto, o RESTO da divisão de soma / 11
+                resto = soma % 11;
+
+                 // checar SE resto ficou com valor menor que 2 se sim o primeiro digito será 0 (zero)
+                if (resto < 2){
+                    resto = 0;
+                }
+                else{
+                    resto = 11 - resto;  // se não for; O que tiver em resto subtraia por 11
+                }
+
+                //armazenar em digito o valor de resto
+                digito = digito + resto;
+
+                //Checar o cpf e comparar com digito
+                if(cnpj.EndsWith(digito)== true){
+                    System.Console.WriteLine("CNPJ VÁLIDO!");
+                    return cnpjValido = true;
+                }
+                else{
+                    System.Console.WriteLine("CNPJ INVÁLIDO");
+                    return cnpjValido = false;
+                }                
+            }
+            return cnpjValido;
         }
 
     }
